@@ -1,0 +1,32 @@
+# Using RStudio to run
+# install required packages 
+library (rgdal)
+library (ncdf4)
+library (raster)
+
+#install.packages("ggplot2") #if you want to plot data
+##R read the files in the folder
+##list the file
+
+files <- list.files(path ="folder_path", pattern='*.nc4', full.names=TRUE)
+print (files)
+
+##convert files to TIFF
+for (f in files) {
+  r <- raster(f)
+  fout <- extension(f, '.tif')
+  print (fout)
+  r <- writeRaster(r, filename=fout, datatype='FLT4S')
+}
+##R read GEOTIFF in the folder, and add to files2
+files2<-list.files(path ="C:/Users/nguyeng2/Desktop/Passic River/PS_Tmin2010-2013/try", pattern='*.tif', full.names=TRUE)
+print (files2)
+##Converting GeoTiff to CSV
+##use lapply to iterate through all files
+for (f1 in files2){
+  csv<-readGDAL(f1) #
+  f1out<-extension(f1,'.csv')
+  print(f1out)
+  csv<-write.csv(csv,file=f1out)
+}
+##End
