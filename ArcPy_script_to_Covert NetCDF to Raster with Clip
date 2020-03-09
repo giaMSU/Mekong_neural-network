@@ -1,0 +1,29 @@
+##import required packages
+import arcpy
+from arcpy import env
+from arcpy.sa import *
+## create output and input folders
+Input_Precip_folder = "E:\Mekong\DATA\JMP_Deeplearning_data\Mekong_precip\Precip2010-2018\Precip_2013"
+Out_Precip_folder ="E:\Mekong\DATA\JMP_Deeplearning_data\Mekong_precip\Precip2010-2018\Precip_2013\TIFF"
+## create workspace as the input folder
+arcpy.env.workspace = Input_Precip_folder
+arcpy.env.overwriteOutput = True
+arcpy.env.scratchWorkspace = Out_Precip_folder
+#set variables in NetCDF file_"HQprecipitation" must match to variable in the NetCDF_ use Panoply to read the NetCDF
+variablePrecip = "HQprecipitation"
+XDimension = "lon"
+YDimension = "lat"
+time = "time"
+## set the files to arcpy
+NetCDFfiles = arcpy.ListFiles("*.nc4")
+print NetCDFfiles
+## For loop to convert NetCDF to Raster and SplitRaster by polygon named "Mekong_Basin"_ The polygon shapefile should be located in the workspace
+for filename in NetCDFfiles:
+        print ("Processing: " + filename)
+        day = filename[11:19]# extract date in the filenames
+        outRasterLayer_Precip = "Precip" + "_" + day # name new rasters
+        InNetCDPrecip = arcpy.env.workspace + "/" + filename
+        arcpy.MakeNetCDFRasterLayer_md(InNetCDPrecip ,variablePrecip,XDimension, YDimension, outRasterLayer_Precip)
+        outRasterPrecip_Folder = Out_Precip_folder
+        arcpy.SplitRaster_management (outRasterLayer_Precip,Out_Precip_folder,outRasterLayer_Precip,"POLYGON_FEATURES","TIFF","NEAREST","","","","DEGREES","","","Mekong_Basin","","","")
+
