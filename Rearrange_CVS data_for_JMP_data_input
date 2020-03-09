@@ -1,12 +1,11 @@
-% %The Purpose of this code is to essentially Transpose very large data sets while
-% %at the same time aligning their temporal frames.
-% %This code was constructed to aid in Gia Nguyen''s research into the Mekong.
+% %The Purpose of this code is to essentially Transpose very large data sets while at the same time aligning their temporal frames.
+% %This code was constructed to aid in research into the Mekong.
 %Make sure all files are in the same folder while working. Otherwise use...
 %Absolute pathnames
-%Wrtten By Erik Lyttek in MATLAB R2018a. 11/05/2019
+%Wrtten By Erik Lyttek and GN in MATLAB R2018a. 11/05/2019
 format long
 %Data Loaders. Loads CSV Files into Matrix
-%Tmax load
+%Tmax load. Load Tmax data 
 opts=detectImportOptions('TMP_Max10_25.csv');
 opts=setvartype(opts,'double');
 Tmax0=readtable('TMP_Max10_25.csv',opts);
@@ -147,8 +146,7 @@ Tmin=transpose(Tmin);
 
 %Clear Data for every variable
 clear Tmin0 Tmin1 Tmin2 Tmin3 Tmin4 Tmin5 Tmin6 Tmin7 Tmin8
-%
-%
+
 %Precip Load
 opts=detectImportOptions('Precip_10_25.csv');
 opts=setvartype(opts,'double');
