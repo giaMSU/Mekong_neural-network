@@ -1,0 +1,415 @@
+% %The Purpose of this code is to essentially Transpose very large data sets while
+% %at the same time aligning their temporal frames.
+% %This code was constructed to aid in Gia Nguyen''s research into the Mekong.
+%Make sure all files are in the same folder while working. Otherwise use...
+%Absolute pathnames
+%Wrtten By Erik Lyttek in MATLAB R2018a. 11/05/2019
+format long
+%Data Loaders. Loads CSV Files into Matrix
+%Tmax load
+opts=detectImportOptions('TMP_Max10_25.csv');
+opts=setvartype(opts,'double');
+Tmax0=readtable('TMP_Max10_25.csv',opts);
+Tmax0=Tmax0(1:end,5:end);
+Tmax0=Tmax0{:,:};
+Tmax0=transpose(Tmax0);
+
+opts=detectImportOptions('TMP_Max11_25.csv');
+opts=setvartype(opts,'double');
+Tmax1=readtable('TMP_Max11_25.csv',opts);%skips the First Row to...
+Tmax1=Tmax1(1:end,5:end);
+Tmax1=Tmax1{:,:};
+Tmax1=transpose(Tmax1);
+
+opts=detectImportOptions('TMP_Max12_25.csv');
+opts=setvartype(opts,'double');
+Tmax2=readtable('TMP_Max12_25.csv',opts);%skips the First Row to...
+Tmax2=Tmax2(1:end,5:end);
+Tmax2=Tmax2{:,:};
+Tmax2=transpose(Tmax2);
+
+opts=detectImportOptions('TMP_Max13_25.csv');
+opts=setvartype(opts,'double');
+Tmax3=readtable('TMP_Max13_25.csv',opts);%skips the First Row to...
+Tmax3=Tmax3(1:end,5:end);
+Tmax3=Tmax3{:,:};
+Tmax3=transpose(Tmax3);
+
+opts=detectImportOptions('TMP_Max14_25.csv');
+opts=setvartype(opts,'double');
+Tmax4=readtable('TMP_Max14_25.csv',opts);%skips the First Row to...
+Tmax4=Tmax4(1:end,5:end);
+Tmax4=Tmax4{:,:};
+Tmax4=transpose(Tmax4);
+
+opts=detectImportOptions('TMP_Max15_25.csv');
+opts=setvartype(opts,'double');
+Tmax5=readtable('TMP_Max15_25.csv',opts);%skips the First Row to...
+Tmax5=Tmax5(1:end,5:end);
+Tmax5=Tmax5{:,:};
+Tmax5=transpose(Tmax5);
+
+opts=detectImportOptions('TMP_Max16_25.csv');
+opts=setvartype(opts,'double');
+Tmax6=readtable('TMP_Max16_25.csv',opts);%skips the First Row to...
+Tmax6=Tmax6(1:end,5:end);
+Tmax6=Tmax6{:,:};
+Tmax6=transpose(Tmax6);
+
+opts=detectImportOptions('TMP_Max17_25.csv');
+opts=setvartype(opts,'double');
+Tmax7=readtable('TMP_Max17_25.csv',opts);%skips the First Row to...
+Tmax7=Tmax7(1:end,5:end);
+Tmax7=Tmax7{:,:};
+Tmax7=transpose(Tmax7);
+
+opts=detectImportOptions('TMP_Max18_25.csv');
+opts=setvartype(opts,'double');
+Tmax8=readtable('TMP_Max18_25.csv',opts);%skips the First Row to...
+Tmax8=Tmax8(1:end,5:end);
+Tmax8=Tmax8{:,:};
+Tmax8=transpose(Tmax8);
+
+Tmax=[Tmax0;Tmax1;Tmax2;Tmax3;Tmax4;Tmax5;Tmax6;Tmax7;Tmax8];
+
+Tmax=transpose(Tmax);
+
+%Clear Data for every variable
+clear Tmax0 Tmax1 Tmax2 Tmax3 Tmax4 Tmax5 Tmax6 Tmax7 Tmax8
+
+%Tmin load
+opts=detectImportOptions('TMP_Min10_25.csv');
+opts=setvartype(opts,'double');
+Tmin0=readtable('TMP_Min10_25.csv',opts);%... remove Header
+Tmin0=Tmin0(1:end,5:end);
+Tmin0=Tmin0{:,:};
+Tmin0=transpose(Tmin0);
+
+opts=detectImportOptions('TMP_Min11_25.csv');
+opts=setvartype(opts,'double');
+Tmin1=readtable('TMP_Min11_25.csv',opts);%... remove Header
+Tmin1=Tmin1(1:end,5:end);
+Tmin1=Tmin1{:,:};
+Tmin1=transpose(Tmin1);
+
+opts=detectImportOptions('TMP_Min12_25.csv');
+opts=setvartype(opts,'double');
+Tmin2=readtable('TMP_Min12_25.csv',opts);%... remove Header
+Tmin2=Tmin2(1:end,5:end);
+Tmin2=Tmin2{:,:};
+Tmin2=transpose(Tmin2);
+
+opts=detectImportOptions('TMP_Min13_25.csv');
+opts=setvartype(opts,'double');
+Tmin3=readtable('TMP_Min13_25.csv',opts);%... remove Header
+Tmin3=Tmin3(1:end,5:end);
+Tmin3=Tmin3{:,:};
+Tmin3=transpose(Tmin3);
+
+opts=detectImportOptions('TMP_Min14_25.csv');
+opts=setvartype(opts,'double');
+Tmin4=readtable('TMP_Min14_25.csv',opts);%... remove Header
+Tmin4=Tmin4(1:end,5:end);
+Tmin4=Tmin4{:,:};
+Tmin4=transpose(Tmin4);
+
+opts=detectImportOptions('TMP_Min15_25.csv');
+opts=setvartype(opts,'double');
+Tmin5=readtable('TMP_Min15_25.csv',opts);%... remove Header
+Tmin5=Tmin5(1:end,5:end);
+Tmin5=Tmin5{:,:};
+Tmin5=transpose(Tmin5);
+
+opts=detectImportOptions('TMP_Min16_25.csv');
+opts=setvartype(opts,'double');
+Tmin6=readtable('TMP_Min16_25.csv',opts);%... remove Header
+Tmin6=Tmin6(1:end,5:end);
+Tmin6=Tmin6{:,:};
+Tmin6=transpose(Tmin6);
+
+opts=detectImportOptions('TMP_Min17_25.csv');
+opts=setvartype(opts,'double');
+Tmin7=readtable('TMP_Min17_25.csv',opts);%... remove Header
+Tmin7=Tmin7(1:end,5:end);
+Tmin7=Tmin7{:,:};
+Tmin7=transpose(Tmin7);
+
+opts=detectImportOptions('TMP_Min18_25.csv');
+opts=setvartype(opts,'double');
+Tmin8=readtable('TMP_Min18_25.csv',opts);%... remove Header
+Tmin8=Tmin8(1:end,5:end);
+Tmin8=Tmin8{:,:};
+Tmin8=transpose(Tmin8);
+
+
+Tmin= [Tmin0;Tmin1;Tmin2;Tmin3;Tmin4;Tmin5;Tmin6;Tmin7;Tmin8];%from a TminMatrix
+Tmin=transpose(Tmin);
+
+%Clear Data for every variable
+clear Tmin0 Tmin1 Tmin2 Tmin3 Tmin4 Tmin5 Tmin6 Tmin7 Tmin8
+%
+%
+%Precip Load
+opts=detectImportOptions('Precip_10_25.csv');
+opts=setvartype(opts,'double');
+Prec0=readtable('Precip_10_25.csv',opts);%... remove Header
+Prec0=Prec0(1:end,5:end);
+Prec0=Prec0{:,:};
+Prec0=transpose(Prec0);
+
+opts=detectImportOptions('Precip_11_25.csv');
+opts=setvartype(opts,'double');
+Prec1=readtable('Precip_11_25.csv',opts);
+Prec1=Prec1(1:end,5:end);
+Prec1=Prec1{:,:};
+Prec1=transpose(Prec1);
+
+opts=detectImportOptions('Precip_12_25.csv');
+opts=setvartype(opts,'double');
+Prec2=readtable('Precip_12_25.csv',opts);
+Prec2=Prec2(1:end,5:end);
+Prec2=Prec2{:,:};
+Prec2=transpose(Prec2);
+
+opts=detectImportOptions('Precip_13_25.csv');
+opts=setvartype(opts,'double');
+Prec3=readtable('Precip_13_25.csv',opts);
+Prec3=Prec3(1:end,5:end);
+Prec3=Prec3{:,:};
+Prec3=transpose(Prec3);
+
+opts=detectImportOptions('Precip_14_25.csv');
+opts=setvartype(opts,'double');
+Prec4=readtable('Precip_14_25.csv',opts);
+Prec4=Prec4(1:end,5:end);
+Prec4=Prec4{:,:};
+Prec4=transpose(Prec4);
+
+opts=detectImportOptions('Precip_15_25.csv');
+opts=setvartype(opts,'double');
+Prec5=readtable('Precip_15_25.csv',opts);
+Prec5=Prec5(1:end,5:end);
+Prec5=Prec5{:,:};
+Prec5=transpose(Prec5);
+
+opts=detectImportOptions('Precip_16_25.csv');
+opts=setvartype(opts,'double');
+Prec6=readtable('Precip_16_25.csv',opts);
+Prec6=Prec6(1:end,5:end);
+Prec6=Prec6{:,:};
+Prec6=transpose(Prec6);
+
+opts=detectImportOptions('Precip_17_25.csv');
+opts=setvartype(opts,'double');
+Prec7=readtable('Precip_17_25.csv',opts);
+Prec7=Prec7(1:end,5:end);
+Prec7=Prec7{:,:};
+Prec7=transpose(Prec7);
+
+opts=detectImportOptions('Precip_18_25.csv');
+opts=setvartype(opts,'double');
+Prec8=readtable('Precip_18_25.csv',opts);
+Prec8=Prec8(1:end,5:end);
+Prec8=Prec8{:,:};
+Prec8=transpose(Prec8);
+
+
+Precip= [Prec0;Prec1;Prec2;Prec3;Prec4;Prec5;Prec6;Prec7;Prec8];
+Precip=transpose(Precip);
+
+%Clear Data for every variable
+clear Prec0 Prec1 Prec2 Prec3 Prec4 Prec5 Prec6 Prec7 Prec8
+
+%SoilMoisture load
+opts=detectImportOptions('MK_SM_2010_25.csv');
+opts=setvartype(opts,'double');
+SMoisture0=readtable('MK_SM_2010_25.csv',opts);
+SMoisture0=SMoisture0(1:end,5:end);
+SMoisture0=SMoisture0{:,:};
+SMoisture0=transpose(SMoisture0);
+
+opts=detectImportOptions('MK_SM_2011_25.csv');
+opts=setvartype(opts,'double');
+SMoisture1=readtable('MK_SM_2011_25.csv',opts);
+SMoisture1=SMoisture1(1:end,5:end);
+SMoisture1=SMoisture1{:,:};
+SMoisture1=transpose(SMoisture1);
+
+opts=detectImportOptions('MK_SM_2012_25.csv');
+opts=setvartype(opts,'double');
+SMoisture2=readtable('MK_SM_2012_25.csv',opts);
+SMoisture2=SMoisture2(1:end,5:end);
+SMoisture2=SMoisture2{:,:};
+SMoisture2=transpose(SMoisture2);
+
+opts=detectImportOptions('MK_SM_2013_25.csv');
+opts=setvartype(opts,'double');
+SMoisture3=readtable('MK_SM_2013_25.csv',opts);
+SMoisture3=SMoisture3(1:end,5:end);
+SMoisture3=SMoisture3{:,:};
+SMoisture3=transpose(SMoisture3);
+
+opts=detectImportOptions('MK_SM_2014_25.csv');
+opts=setvartype(opts,'double');
+SMoisture4=readtable('MK_SM_2014_25.csv',opts);
+SMoisture4=SMoisture4(1:end,5:end);
+SMoisture4=SMoisture4{:,:};
+SMoisture4=transpose(SMoisture4);
+
+opts=detectImportOptions('MK_SM_2015_25.csv');
+opts=setvartype(opts,'double');
+SMoisture5=readtable('MK_SM_2015_25.csv',opts);
+SMoisture5=SMoisture5(1:end,5:end);
+SMoisture5=SMoisture5{:,:};
+SMoisture5=transpose(SMoisture5);
+
+opts=detectImportOptions('MK_SM_2016_25.csv');
+opts=setvartype(opts,'double');
+SMoisture6=readtable('MK_SM_2016_25.csv',opts);
+SMoisture6=SMoisture6(1:end,5:end);
+SMoisture6=SMoisture6{:,:};
+SMoisture6=transpose(SMoisture6);
+
+opts=detectImportOptions('MK_SM_2017_25.csv');
+opts=setvartype(opts,'double');
+SMoisture7=readtable('MK_SM_2017_25.csv',opts);
+SMoisture7=SMoisture7(1:end,5:end);
+SMoisture7=SMoisture7{:,:};
+SMoisture7=transpose(SMoisture7);
+
+opts=detectImportOptions('MK_SM_2018_25.csv');
+opts=setvartype(opts,'double');
+SMoisture8=readtable('MK_SM_2018_25.csv',opts);
+SMoisture8=SMoisture8(1:end,5:end);
+SMoisture8=SMoisture8{:,:};
+SMoisture8=transpose(SMoisture8);
+
+
+SMoisture=[SMoisture0;SMoisture1;SMoisture2;SMoisture3;SMoisture4;SMoisture5;SMoisture6;SMoisture7;SMoisture8];
+SMoisture=transpose(SMoisture);
+
+%Clear Data for every variable
+clear SMoisture0 SMoisture1 SMoisture2 SMoisture3 SMoisture4 SMoisture5 SMoisture6 SMoisture7 SMoisture8
+
+%LAI load _ monthly
+LAI_hv1= readtable('Mekong_LAI_hv_25.csv','HeaderLines',1);
+LAI_lv1= readtable('Mekong_LAI_lv_25.csv','HeaderLines',1);
+
+clear LAI_hv LAI_lv
+
+%Evapotranspiration monthly
+Evapot1=readtable('Mekong_evapotran_0251.csv','HeaderLines',1);
+
+clear Evapot
+
+%Runoff load - Monthly
+Runoff=readtable('Mekong_runoff_25_monthly.csv','HeaderLines',1);
+
+
+%Windspeed load Monthly
+Winds=readtable('MK_windspeed_monthly_25.csv','HeaderLines',1);
+
+
+%Albedo load Monthly
+FAlbedo=readtable('Mekong_MonthlyAlbedo_025.csv','HeaderLines',1);
+
+
+%SoilType load Yearly
+Soil_HWSD_Sand=readtable('Mekong_SoilHWSD_Sand_025.csv','HeaderLines',1);
+
+
+Soil_HWSD_Clay=readtable('Mekong_SoilHWSD_Clay_025.csv','HeaderLines',1);
+
+
+Soil_HWSD_AWC=readtable('Mekong_SoilHWSD_AWC_025.csv','HeaderLines',1);
+
+
+%LandCover load Yearly
+LandCrop=readtable('LandCover_300m_25.csv','HeaderLines',1);
+
+%Align temporal Aspects. Removes temporal and latlon data - monthly
+MLAI=LAI_hv1(1:end,5:end);
+DLAI_hvrepelem=repelem(MLAI,1,[31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 29 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 29 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31]);%Note Leap Years
+
+MLAI=LAI_lv1(1:end,5:end);
+DLAI_lvrepelem=repelem(MLAI,1,[31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 29 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 29 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31]);%Note Leap Years
+
+MWindS=Winds(1:end,5:end);
+DWindSrepelem=repelem(MWindS,1,[31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 29 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 29 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31]);%Note Leap Years
+
+MEvapot=Evapot1(1:end,5:end);
+DEvapotrepelem=repelem(MEvapot,1,[31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 29 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 29 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31 31 28 31 30 31 30 31 31 30 31 30 31]);%Note Leap Years
+
+MLandCrop=LandCrop(1:end,5:end);
+DLandCrepelem=repelem(MLandCrop,1,[365,365,366,365,365,365,366,365,365]);
+
+% MFlowDir=FlowDir1(1:end,5:end);
+% DFlowDirreplem=repelem(MFlowDir,1,[3287]);
+%
+MSoil_HWSD_Sand=Soil_HWSD_Sand(1:end,5:end);
+DSoil_HWSD_Sandrepelem=repelem(MSoil_HWSD_Sand,1,[3287]);
+%
+MSoil_HWSD_Clay=Soil_HWSD_Clay(1:end,5:end);
+DSoil_HWSD_Clayrepelem=repelem(MSoil_HWSD_Clay,1,[3287]);
+
+MSoil_HWSD_AWC=Soil_HWSD_AWC(1:end,5:end);
+DSoil_HWSD_AWCrepelem=repelem(MSoil_HWSD_AWC,1,[3287]);
+
+%Creates Net of Lat & Lon which becomes the first two layers in the Array
+opts=detectImportOptions('TMP_Max10_25.csv');
+opts=setvartype(opts,'double');
+Tmax0=readtable('TMP_Max10_25.csv',opts);
+I=Tmax(1:end,2);
+La=Tmax(1:end,3);
+Lo=Tmax(1:end,4);
+ID=repelem(I,1,3287);
+Lat=repelem(La,1,3287);
+Lon=repelem(Lo,1,3287);
+clear Tmax0
+
+%Table to Matrix conversion
+ID=ID(:,:);
+Lat=Lat(:,:);
+Lon=Lon(:,:);
+DTmax=Tmax(:,:);
+DTmin=Tmin(:,:);
+DPrec=Precip(:,:);
+DSMoisture=SMoisture(:,:);
+DLAI_hvrepelem=DLAI_hvrepelem{:,:};
+DLAI_lvrepelem=DLAI_lvrepelem{:,:};
+DWindSrepelem=DWindSrepelem{:,:};
+DEvapotrepelem=DEvapotrepelem{:,:};
+DLandCrepelem=DLandCrepelem{:,:};
+%DFlowDirreplem=DFlowDirreplem{:,:};
+DSoil_HWSD_Sandrepelem=DSoil_HWSD_Sandrepelem{:,:};
+DSoil_HWSD_Clayrepelem=DSoil_HWSD_Clayrepelem{:,:};
+DSoil_HWSD_AWCrepelem=DSoil_HWSD_AWCrepelem{:,:};
+
+%Create Multidimensional Array
+CUBE=ID(:,:);
+CUBE(:,:,2)=Lat(:,:);
+CUBE(:,:,3)=Lon(:,:);
+CUBE(:,:,4)=DTmax(:,:);
+CUBE(:,:,5)=DTmin(:,:);
+CUBE(:,:,6)=DPrec(:,:);
+CUBE(:,:,7)=DSMoisture(:,:);
+CUBE(:,:,8)=DLAI_hvrepelem(:,:);
+CUBE(:,:,9)=DLAI_lvrepelem(:,:);
+CUBE(:,:,10)=DWindSrepelem(:,:);
+CUBE(:,:,11)=DEvapotrepelem(:,:);
+CUBE(:,:,12)=DLandCrepelem(:,:);
+%CUBE(:,:,13)=DFlowDirreplem(:,:);
+CUBE(:,:,13)=DSoil_HWSD_Sandrepelem(:,:);
+CUBE(:,:,14)=DSoil_HWSD_Clayrepelem(:,:);
+CUBE(:,:,15)=DSoil_HWSD_AWCrepelem(:,:);
+
+%Permute array Along Z-axis
+RECUBE=permute(CUBE,[3 2 1]);
+
+%Transpose, Resample and Export to xlsx
+%Note in Matlab 2019a writematrix can be used instead of xlswrite
+EXPORT=reshape(RECUBE,15,[]);%number of variables should be fit
+EXPORT=EXPORT.';%'
+filename= 'Mekong_9Year_Compile_25.csv';
+sheet=1;
+csvwrite(filename,EXPORT);
