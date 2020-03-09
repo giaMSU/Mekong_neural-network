@@ -1,0 +1,99 @@
+ //Scrip written by DS_JMP_community_3/6/20
+//keeps variables local, not global
+Names Default To Here( 1 ); 
+//defines your starting data table
+dt = Open ("E:/Mekong/DATA/JMP_Deeplearning_data/Ready_for_ANN/10Year_0.25/Run_2ndtimes/Subset_9years_0-250.jmp"); 
+Summarize( locs = BY( dt:ID ) ); //creates a list of the different location IDs
+
+//This FOR loop creates all the different data tables based on location ID and also names them based on location ID
+For( j = 1, j <= N Items( locs ), j++,
+	file = dt << Select Where( locs[j] == Char( :ID ) ) << Subset( file, Output Table Name( "Model Subject File Location ID " || locs[j] ) )
+);
+
+//this portion of the code generates the list of data tables that will be used to train the models for each location.
+dt_list = {};
+one_name = {};
+For( m = 1, m <= N Table(), m++,
+	dt_temp = Data Table( m );
+	one_name = dt_temp << GetName;
+	If( Starts With( one_name, "Model" ),
+		Insert Into( dt_list, one_name )
+	);
+);
+
+//this portion of the code creates the fit result data table that will record the statistics for each fit, to be reviewed later. 
+//Also adds the label column property to the Loc_ID column.
+dt_fit_results = New Table( "Fit Results", Add Rows( N Items( dt_list ) ), New Column( "Loc_ID", "Continuous" ) );
+dt_fit_results << New Column( "R² Training" );
+dt_fit_results << New Column( "R² Validation" );
+dt_fit_results << New Column( "RMSE Training" );
+dt_fit_results << New Column( "RMSE Validation" );
+dt_fit_results << New Column( "Mean Abs Dev Training" );
+dt_fit_results << New Column( "Mean Abs Dev Validation" );
+dt_fit_results << New Column( "-LogLikelihood Training" );
+dt_fit_results << New Column( "-LogLikelihood Validation" );
+dt_fit_results << New Column( "SSE Training" );
+dt_fit_results << New Column( "SSE Validation" );
+dt_fit_results << New Column( "Sum Freq Training" );
+dt_fit_results << New Column( "Sum Freq Validation" );
+dt_fit_results:Loc_ID << Label;
+
+//this FOR loop makes sure that each row of the fit result table also includes the location ID
+
+For( l = 1, l <= N Items( dt_list ), l++,
+	dt_fit_results:Loc_ID[l] = dt_list[l]:ID[l]
+);
+
+//this FOR loop is the fitting routine for each location data table.
+
+For( i = 1, i <= N Items( dt_list ), i++,
+	NN = Data Table( dt_list[i] ) << Neural(
+		Y( :Name( "SoilMoisture(kg.m-2) or (mm)" ) ),
+		X(
+			:Name( "Tmax(K)" ),
+			:Name( "Tmin(K)" ),
+			:Name( "Precip(mm)" ),
+			:LAI_hv,
+			:LAI_lv,
+			:Name( "Winspeed(m/s)" ),
+			:Name( "Evatransporation(kgm-2s-1)" ),
+			:LandCover,
+			:USDASoilClass,
+			:Forecast_Albedo,
+		),
+		Informative Missing( 1 ),
+		Transform Covariates( 1 ),
+		Validation Method( "KFold", 7 ),
+		Set Random Seed( 1234 ),
+		Fit(
+			NTanH( 1 ),
+			NLinear( 1 ),
+			NGaussian( 1 ),
+			NTanH2( 3 ),
+			NGaussian2( 3 ),
+			Transform Covariates( 1 ),
+			Robust Fit( 1 ),
+			Penalty Method( "Absolute" ),			
+			Number of Tours( 100 ), //I only did one tour just for proof of concept, so you'll want to change this
+			Save Formulas,
+		)
+	);
+	NNReport = NN << Report;//These next lines of code are what pull the actual values from the fit report and saves them to the fit results data table.
+	NNReport << Save PDF("E:/Mekong/DATA/JMP_Deeplearning_data/Ready_for_ANN/10Year_0.25/Run_2ndtimes/PDFfiles/model_"|| Char (i)||".pdf");
+	
+	Train = NNreport["Training"][Number Col Box( 1 )] << Get;
+	Valid = NNreport["Validation"][Number Col Box( 1 )] << Get;
+	dt_fit_results:Name( "R² Training" )[i] = Train[1];
+	dt_fit_results:Name( "RMSE Training" )[i] = Train[2];
+	dt_fit_results:Name( "R² Validation" )[i] = Valid[1];
+	dt_fit_results:Name( "RMSE Validation" )[i] = valid[2];
+	dt_fit_results: Name ( "-LogLikelihood Training" ) [i] = Train [4];
+	dt_fit_results: Name ( "-LogLikelihood Validation" )[i] = Valid [4];
+	dt_fit_results: Name ( "Mean Abs Dev Training" ) [i] = Train [3];
+	dt_fit_results: Name ( "Mean Abs Dev Validation" )[i] = Valid [3];
+	dt_fit_results: Name ( "SSE Training" ) [i] = Train [5];
+	dt_fit_results: Name ( "SSE Validation" )[i] = Valid [5];
+	dt_fit_results: Name ( "Sum Freq Training" ) [i] = Train [6];
+	dt_fit_results: Name ( "Sum Freq Validation" )[i] = Valid [6];	
+	//Close( dt_list[i], save );
+);
